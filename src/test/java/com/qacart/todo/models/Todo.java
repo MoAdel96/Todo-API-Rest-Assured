@@ -1,5 +1,6 @@
 package com.qacart.todo.models;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -16,7 +17,10 @@ public class Todo {
     @JsonProperty("__v")
     private String v;
 
-    public Todo(Boolean isCompleted, String item) {
+
+
+    @JsonCreator
+    public Todo(@JsonProperty("isCompleted")Boolean isCompleted, @JsonProperty("item")String item) {
         this.isCompleted =isCompleted;
         this.item=item;
 
@@ -27,15 +31,15 @@ public class Todo {
     }
 
 
-    @JsonProperty("_id")
+
     public String getUserID() {
         return userID;
     }
-    @JsonProperty("_id")
+
     public void setUserID(String userID) {
         this.userID = userID;
     }
-    @JsonProperty("isCompleted")
+   @JsonProperty("isCompleted")
     public Boolean getIsCompleted() {
         return isCompleted;
     }
