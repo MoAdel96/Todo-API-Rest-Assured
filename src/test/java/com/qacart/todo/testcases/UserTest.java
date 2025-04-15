@@ -1,5 +1,6 @@
 package com.qacart.todo.testcases;
 
+import com.qacart.todo.apis.UserApi;
 import com.qacart.todo.models.User;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
@@ -17,18 +18,10 @@ public class UserTest {
     @Test
     public void shouldBeAbleToRegister() {
 
-        User user = new User("Hatem","Hatamleh","hatem595@example.com","12345678");
+        User user = new User("Hatem","Hatamleh","hatem50905@example.com","12345678");
 
 
-       Response response= given()
-                .baseUri("https://qacart-todo.herokuapp.com")
-                .contentType(ContentType.JSON)
-                .body(user)
-        .when()
-                .post("/api/v1/users/register")
-        .then()
-                .log().all()
-                .extract().response();
+        Response response = UserApi.register(user);
 
        User returnedUser = response.body().as(User.class);
 
@@ -47,15 +40,7 @@ public class UserTest {
     public void shouldNotBeAbleToRegisterWithSameEmail(){
         User user = new User("Hatem","Hatamleh","hatem555@example.com","12345678");
 
-        Response response= given()
-                .baseUri("https://qacart-todo.herokuapp.com")
-                .contentType(ContentType.JSON)
-                .body(user)
-        .when()
-                .post("/api/v1/users/register")
-        .then()
-                .log().all()
-                .extract().response();
+        Response response = UserApi.register(user);;
 
         Error returnedError = response.body().as(Error.class);
 
@@ -72,15 +57,7 @@ public class UserTest {
     public void shouldBeAbleToLogin(){
         User user = new User("hatem555@example.com","12345678");
 
-        Response response= given()
-                .baseUri("https://qacart-todo.herokuapp.com")
-                .contentType(ContentType.JSON)
-                .body(user)
-                .when()
-                .post("/api/v1/users/login")
-                .then()
-                .log().all()
-                .extract().response();
+        Response response= UserApi.Login(user);
 
         User returnedUser = response.body().as(User.class);
 
@@ -99,20 +76,13 @@ public class UserTest {
     public void shouldNotBeAbleToLoginIfThePasswordIsNotCorrect(){
         User user = new User("hatem555@example.com","12345679");
 
-        Response response=given()
-                .baseUri("https://qacart-todo.herokuapp.com")
-                .contentType(ContentType.JSON)
-                .body(user)
-                .when()
-                .post("/api/v1/users/login")
-                .then()
-                .log().all().extract().response();
+       Response response= UserApi.Login(user);
         Error returnedError = response.body().as(Error.class);
-        User returnedUser = response.body().as(User.class);
+
 
         assertThat(response.statusCode(),equalTo(401));
         assertThat(returnedError.getMessage(),equalTo("The email and password combination is not correct, please fill a correct email and password"));
-        assertThat(returnedUser.getAccess_token(),not(equalTo(null)));
+
 
 
 //                .assertThat().statusCode(401)
