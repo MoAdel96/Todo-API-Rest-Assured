@@ -25,6 +25,8 @@ jobs:
           Expand-Archive -Path maven.zip -DestinationPath $env:RUNNER_TEMP
           echo "MAVEN_HOME=$env:RUNNER_TEMP\apache-maven-3.8.8" >> $env:GITHUB_ENV
           echo "$env:RUNNER_TEMP\apache-maven-3.8.8\bin" >> $env:GITHUB_PATH
+          echo "Maven installed at $env:RUNNER_TEMP\apache-maven-3.8.8"
+          ls $env:RUNNER_TEMP\apache-maven-3.8.8\bin
 
       - name: Run tests
         run: mvn clean test
