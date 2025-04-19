@@ -3,7 +3,6 @@ package com.qacart.todo.apis;
 import com.qacart.todo.base.Specs;
 import com.qacart.todo.data.Route;
 import com.qacart.todo.models.Todo;
-import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.given;

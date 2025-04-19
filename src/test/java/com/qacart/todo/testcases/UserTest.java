@@ -6,12 +6,9 @@ import com.qacart.todo.models.User;
 import com.qacart.todo.steps.UserSteps;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
-import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import org.hamcrest.Matcher;
 import org.testng.annotations.Test;
 
-import static io.restassured.RestAssured.given;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
@@ -46,7 +43,7 @@ public class UserTest {
         User user = UserSteps.getRegisteredUser();
 
         Response response = UserApi.register(user);
-        ;
+
 
         Error returnedError = response.body().as(Error.class);
 

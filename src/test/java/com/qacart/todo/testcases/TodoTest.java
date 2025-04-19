@@ -3,16 +3,13 @@ package com.qacart.todo.testcases;
 import com.qacart.todo.apis.TodoApi;
 import com.qacart.todo.data.ErrorMessages;
 import com.qacart.todo.models.Todo;
-import com.qacart.todo.models.User;
 import com.qacart.todo.steps.TodoSteps;
 import com.qacart.todo.steps.UserSteps;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
-import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.testng.annotations.Test;
 
-import static io.restassured.RestAssured.given;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
@@ -21,11 +18,10 @@ import static org.hamcrest.Matchers.equalTo;
 public class TodoTest {
 
     @Story("Should Be Able To Add Todo")
-    @Test(description ="Should Be Able To Add Todo" )
+    @Test(description = "Should Be Able To Add Todo")
     public void shouldBeAbleToAddTodo() {
         String token = UserSteps.getUserToken();
         Todo todo = TodoSteps.generateTodo();
-
 
 
         Response response = TodoApi.addTodo(todo, token);
@@ -66,11 +62,11 @@ public class TodoTest {
     @Story("Should Be Able To Get Todo By ID")
     @Test(description = "Should Be Able To Get Todo By ID")
     public void shouldBeAbleToGetTodoByID() {
-        Todo todo =TodoSteps.generateTodo();
+        Todo todo = TodoSteps.generateTodo();
         String token = UserSteps.getUserToken();
-        String todoID = TodoSteps.getTodoID(todo,token);
+        String todoID = TodoSteps.getTodoID(todo, token);
 
-        Response response = TodoApi.getTodo(todoID,token);
+        Response response = TodoApi.getTodo(todoID, token);
 
         Todo returnedTodo = response.body().as(Todo.class);
 
@@ -90,10 +86,10 @@ public class TodoTest {
     @Test(description = "Should Be Able To Delete Todo")
     public void shouldBeAbleToDeleteTodo() {
 
-        Todo todo =TodoSteps.generateTodo();
+        Todo todo = TodoSteps.generateTodo();
         String token = UserSteps.getUserToken();
-        String todoID = TodoSteps.getTodoID(todo,token);
-        Response response =TodoApi.deleteTodo(todoID,token);
+        String todoID = TodoSteps.getTodoID(todo, token);
+        Response response = TodoApi.deleteTodo(todoID, token);
         Todo returnedTodo = response.body().as(Todo.class);
 
 
