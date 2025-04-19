@@ -22,20 +22,11 @@ public class TodoTest {
     public void shouldBeAbleToAddTodo() {
         String token = UserSteps.getUserToken();
         Todo todo = TodoSteps.generateTodo();
-
-
         Response response = TodoApi.addTodo(todo, token);
-
         Todo returnedTodo = response.body().as(Todo.class);
-
         assertThat(response.statusCode(), equalTo(201));
         assertThat(returnedTodo.getItem(), equalTo(todo.getItem()));
         assertThat(returnedTodo.getIsCompleted(), equalTo(todo.getIsCompleted()));
-
-//                .assertThat().statusCode(201)
-//                .assertThat().body("item", equalTo("Learn Appium"))
-//                .assertThat().body("isCompleted", equalTo(false));
-
 
     }
 
@@ -46,16 +37,9 @@ public class TodoTest {
         Todo todo = new Todo("Learn Appium");
         String token = UserSteps.getUserToken();
         Response response = TodoApi.addTodo(todo, token);
-
-
         Error returnedError = response.body().as(Error.class);
-
         assertThat(response.statusCode(), equalTo(400));
         assertThat(returnedError.getMessage(), equalTo(ErrorMessages.IS_COMPLETED_IS_REQUIRED));
-
-//                .assertThat().statusCode(400)
-//                .assertThat().body("message", equalTo("\"isCompleted\" is required"));
-
 
     }
 
@@ -65,20 +49,11 @@ public class TodoTest {
         Todo todo = TodoSteps.generateTodo();
         String token = UserSteps.getUserToken();
         String todoID = TodoSteps.getTodoID(todo, token);
-
         Response response = TodoApi.getTodo(todoID, token);
-
         Todo returnedTodo = response.body().as(Todo.class);
-
         assertThat(response.statusCode(), equalTo(200));
         assertThat(returnedTodo.getItem(), equalTo(todo.getItem()));
         assertThat(returnedTodo.getIsCompleted(), equalTo(false));
-
-
-//                .assertThat().statusCode(200)
-//                .assertThat().body("item", equalTo("Learn Appium"))
-//                .assertThat().body("isCompleted", equalTo(false));
-
 
     }
 
@@ -91,16 +66,9 @@ public class TodoTest {
         String todoID = TodoSteps.getTodoID(todo, token);
         Response response = TodoApi.deleteTodo(todoID, token);
         Todo returnedTodo = response.body().as(Todo.class);
-
-
         assertThat(response.statusCode(), equalTo(200));
         assertThat(returnedTodo.getItem(), equalTo(todo.getItem()));
         assertThat(returnedTodo.getIsCompleted(), equalTo(false));
-
-//                .assertThat().statusCode(200)
-//                .assertThat().body("item", equalTo("Learn Appium"))
-//                .assertThat().body("isCompleted", equalTo(false));
-
 
     }
 }
