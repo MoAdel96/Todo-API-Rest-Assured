@@ -2,6 +2,7 @@ package com.qacart.todo.testcases;
 
 import com.qacart.todo.apis.UserApi;
 import com.qacart.todo.models.User;
+import com.qacart.todo.steps.UserSteps;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.hamcrest.Matcher;
@@ -18,16 +19,15 @@ public class UserTest {
     @Test
     public void shouldBeAbleToRegister() {
 
-        User user = new User("Hatem","Hatamleh","hatem50905@example.com","12345678");
+        User user = UserSteps.generateUser();
 
 
         Response response = UserApi.register(user);
 
-       User returnedUser = response.body().as(User.class);
+        User returnedUser = response.body().as(User.class);
 
-       assertThat(response.statusCode(),equalTo(201));
-       assertThat(returnedUser.getFirstName(),equalTo(user.getFirstName()));
-
+        assertThat(response.statusCode(), equalTo(201));
+        assertThat(returnedUser.getFirstName(), equalTo(user.getFirstName()));
 
 
 //                .assertThat().statusCode(201)
@@ -37,16 +37,16 @@ public class UserTest {
     }
 
     @Test
-    public void shouldNotBeAbleToRegisterWithSameEmail(){
-        User user = new User("Hatem","Hatamleh","hatem555@example.com","12345678");
+    public void shouldNotBeAbleToRegisterWithSameEmail() {
+        User user = UserSteps.getRegisteredUser();
 
-        Response response = UserApi.register(user);;
+        Response response = UserApi.register(user);
+        ;
 
         Error returnedError = response.body().as(Error.class);
 
-        assertThat(response.statusCode(),equalTo(400));
-        assertThat(returnedError.getMessage(),equalTo("Email is already exists in the Database"));
-
+        assertThat(response.statusCode(), equalTo(400));
+        assertThat(returnedError.getMessage(), equalTo("Email is already exists in the Database"));
 
 
 //                .assertThat().statusCode(400)
@@ -54,17 +54,18 @@ public class UserTest {
     }
 
     @Test
-    public void shouldBeAbleToLogin(){
-        User user = new User("hatem555@example.com","12345678");
+    public void shouldBeAbleToLogin() {
+        User user = UserSteps.getRegisteredUser();
+        User loginData = new User(user.getEmail(), user.getPassword());
 
-        Response response= UserApi.Login(user);
+        Response response = UserApi.Login(loginData);
 
         User returnedUser = response.body().as(User.class);
 
 
-        assertThat(response.statusCode(),equalTo(200));
-        assertThat(returnedUser.getFirstName(),equalTo("Hatem"));
-        assertThat(returnedUser.getAccess_token(),not(equalTo(null)));
+        assertThat(response.statusCode(), equalTo(200));
+        assertThat(returnedUser.getFirstName(), equalTo(user.getFirstName()));
+        assertThat(returnedUser.getAccess_token(), not(equalTo(null)));
 
 
 //                .assertThat().statusCode(200)
@@ -73,16 +74,16 @@ public class UserTest {
     }
 
     @Test
-    public void shouldNotBeAbleToLoginIfThePasswordIsNotCorrect(){
-        User user = new User("hatem555@example.com","12345679");
+    public void shouldNotBeAbleToLoginIfThePasswordIsNotCorrect() {
+        User user = UserSteps.getRegisteredUser();
+        User loginData = new User(user.getEmail(), "wronged password");
 
-       Response response= UserApi.Login(user);
+        Response response = UserApi.Login(loginData);
         Error returnedError = response.body().as(Error.class);
 
 
-        assertThat(response.statusCode(),equalTo(401));
-        assertThat(returnedError.getMessage(),equalTo("The email and password combination is not correct, please fill a correct email and password"));
-
+        assertThat(response.statusCode(), equalTo(401));
+        assertThat(returnedError.getMessage(), equalTo("The email and password combination is not correct, please fill a correct email and password"));
 
 
 //                .assertThat().statusCode(401)
