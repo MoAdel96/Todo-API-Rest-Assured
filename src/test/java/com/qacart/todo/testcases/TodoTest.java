@@ -1,6 +1,7 @@
 package com.qacart.todo.testcases;
 
 import com.qacart.todo.apis.TodoApi;
+import com.qacart.todo.data.ErrorMessages;
 import com.qacart.todo.models.Todo;
 import com.qacart.todo.models.User;
 import com.qacart.todo.steps.TodoSteps;
@@ -49,7 +50,7 @@ public class TodoTest {
         Error returnedError = response.body().as(Error.class);
 
         assertThat(response.statusCode(), equalTo(400));
-        assertThat(returnedError.getMessage(), equalTo("\"isCompleted\" is required"));
+        assertThat(returnedError.getMessage(), equalTo(ErrorMessages.IS_COMPLETED_IS_REQUIRED));
 
 //                .assertThat().statusCode(400)
 //                .assertThat().body("message", equalTo("\"isCompleted\" is required"));

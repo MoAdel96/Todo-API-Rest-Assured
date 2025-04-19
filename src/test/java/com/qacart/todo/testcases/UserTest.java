@@ -1,6 +1,7 @@
 package com.qacart.todo.testcases;
 
 import com.qacart.todo.apis.UserApi;
+import com.qacart.todo.data.ErrorMessages;
 import com.qacart.todo.models.User;
 import com.qacart.todo.steps.UserSteps;
 import io.restassured.http.ContentType;
@@ -46,7 +47,7 @@ public class UserTest {
         Error returnedError = response.body().as(Error.class);
 
         assertThat(response.statusCode(), equalTo(400));
-        assertThat(returnedError.getMessage(), equalTo("Email is already exists in the Database"));
+        assertThat(returnedError.getMessage(), equalTo(ErrorMessages.EMAIL_IS_ALREADY_REGISTERED));
 
 
 //                .assertThat().statusCode(400)
@@ -83,7 +84,7 @@ public class UserTest {
 
 
         assertThat(response.statusCode(), equalTo(401));
-        assertThat(returnedError.getMessage(), equalTo("The email and password combination is not correct, please fill a correct email and password"));
+        assertThat(returnedError.getMessage(), equalTo(ErrorMessages.EMAIL_OR_PASSWORD_IS_WRONG));
 
 
 //                .assertThat().statusCode(401)
