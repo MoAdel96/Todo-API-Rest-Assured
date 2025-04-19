@@ -4,6 +4,8 @@ import com.qacart.todo.apis.UserApi;
 import com.qacart.todo.data.ErrorMessages;
 import com.qacart.todo.models.User;
 import com.qacart.todo.steps.UserSteps;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.hamcrest.Matcher;
@@ -14,10 +16,11 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
 
+@Feature("User Feature")
 public class UserTest {
 
-
-    @Test
+    @Story("Should Be Able To Register")
+    @Test(description = "Should Be Able To Register")
     public void shouldBeAbleToRegister() {
 
         User user = UserSteps.generateUser();
@@ -37,7 +40,8 @@ public class UserTest {
 
     }
 
-    @Test
+    @Story("Should Not Be Able To Register With Same Email")
+    @Test(description = "Should Not Be Able To Register With Same Email")
     public void shouldNotBeAbleToRegisterWithSameEmail() {
         User user = UserSteps.getRegisteredUser();
 
@@ -54,7 +58,8 @@ public class UserTest {
 //                .assertThat().body("message",equalTo("Email is already exists in the Database"));
     }
 
-    @Test
+    @Story("Should Be Able To Login")
+    @Test(description = "Should Be Able To Login")
     public void shouldBeAbleToLogin() {
         User user = UserSteps.getRegisteredUser();
         User loginData = new User(user.getEmail(), user.getPassword());
@@ -74,7 +79,8 @@ public class UserTest {
 //                .assertThat().body("access_token",not(equalTo(null)));
     }
 
-    @Test
+    @Story("Should Not Be Able To Login If The Password Is Not Correct")
+    @Test(description = "Should Not Be Able To Login If The Password Is Not Correct")
     public void shouldNotBeAbleToLoginIfThePasswordIsNotCorrect() {
         User user = UserSteps.getRegisteredUser();
         User loginData = new User(user.getEmail(), "wronged password");
