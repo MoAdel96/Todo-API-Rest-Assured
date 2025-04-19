@@ -19,12 +19,7 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Install Maven
-        run: |
-          curl -sL https://www.apache.org/dyn/closer.cgi?action=download&filename=maven/maven-3/3.8.8/binaries/apache-maven-3.8.8-bin.zip -o maven.zip
-          Expand-Archive -Path maven.zip -DestinationPath $env:RUNNER_TEMP
-          echo "MAVEN_HOME=$env:RUNNER_TEMP\apache-maven-3.8.8" >> $env:GITHUB_ENV
-          echo "$env:RUNNER_TEMP\apache-maven-3.8.8\bin" >> $env:GITHUB_PATH
 
-      - name: Run tests
-        run: mvn clean test
+
+            - name: Run tests
+              run: mvn clean test
